@@ -1,4 +1,4 @@
-class LinkedBinaryTree(BinaryTree):
+class LinkedBinaryTree():
 
     class Node:
         __slots__ = '_element,_parent,_left,_right'
