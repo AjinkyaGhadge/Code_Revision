@@ -84,6 +84,29 @@ class Node:
                 temp.left = None
                 a.data = c.data
             return True
+    
+    def inorder(self):
+        if self.left is not None:
+            self.left.inorder()
+        print(self.data, end = ' ')
+        
+        if self.right is not None:
+            self.right.inorder()
+    def preorder(self):
+        print(self.data, end = ' ')
+       
+        if self.left is not None:
+            self.left.preorder()
+        if self.right is not None:
+            self.right.preorder()
+    def postorder(self):
+        if self.right is not None:
+            self.right.postorder()
+        print(self.data, end = ' ')
+        
+        if self.left is not None:
+            self.left.postorder()
+        
 
                 
 root = Node(8)
@@ -91,13 +114,8 @@ root.insert(9)
 root.insert(7)
 root.insert(3)
 root.insert(5)
-a,b = root.lookup(3)
-print(a,b)
-root.delete(3)
-a,b = root.lookup(3)
-print(a,b)
-a,b = root.lookup(8)
-print(a,b)
-root.delete(8)
-a,b = root.lookup(8)
-print(a,b)
+root.inorder()
+print(" ")
+root.preorder()
+print(" ")
+root.postorder()
