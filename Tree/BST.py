@@ -106,16 +106,31 @@ class Node:
         
         if self.left is not None:
             self.left.postorder()
-        
+    
+    def levelorder(self):
+        q = list()
+        if self.data is None:
+            return False
+        if self.data is not None:
+            q.append(self)
+        while(len(q)!=0):
+            temp = q.pop()
+            print(temp.data, end= " ")
+            if temp.left!=None:
+                q.append(temp.left)
+            if temp.right!=None:
+                q.append(temp.right)
 
                 
-root = Node(8)
-root.insert(9)
+root = Node(10)
+root.insert(6)
+root.insert(11)
 root.insert(7)
-root.insert(3)
 root.insert(5)
-root.inorder()
+root.inorder() #DFS
 print(" ")
-root.preorder()
+root.preorder() #DFS
 print(" ")
-root.postorder()
+root.postorder() #DFS
+print(" ")
+root.levelorder() #BFS
