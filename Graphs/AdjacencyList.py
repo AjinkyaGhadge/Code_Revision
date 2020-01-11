@@ -1,5 +1,6 @@
-# Program to Implement Adjacency List
+# Program to Implement Adjacency List, DFS and BFS in Graph
 
+import collections
 class Vertex:
     def __init__(self,key):
         self.id = key
@@ -19,6 +20,7 @@ class Vertex:
     
     def getWeight(self,nbr):
         return self.connectedTo[nbr]
+    
     
 
 class Graph:
@@ -55,3 +57,54 @@ class Graph:
     def __iter__(self):
         return iter(self.vertList.values())
 
+    def dfs(self,start,visited = None):
+        if visited == None:
+            visited = set()
+        visited.add(start)
+        vert = self.getVertex(start)
+        tempset = vert.getConnections()
+        l = set()
+        for i in tempset:
+            l.add(i.getId())
+        for nex in l-visited:
+            self.dfs(nex,visited)
+        return visited
+    
+    def bfs(self,start):
+        q = collections.deque()
+        q.append(start)
+        visited = set()
+        k = list()
+        while(q):
+            x = q.popleft()
+            k.append(x)
+            visited.add(x)
+            vert = self.getVertex(x)
+            tempset = vert.getConnections()
+            for i in tempset:
+                if i.getId() not in visited:
+                    q.append(i.getId())
+        return(k)
+
+
+
+
+
+g = Graph()
+for i in range(6):
+    g.addVertex(i)
+g.vertList
+g.addEdge(0,1,5)
+g.addEdge(0,7,2)
+g.addEdge(1,2,2)
+g.addEdge(1,9,2)
+g.addEdge(2,3,4)
+g.addEdge(3,5,9)
+g.addEdge(5,0,7)
+
+for v in g:
+    for w in v.getConnections():
+        print("( %s , %s )" % (v.getId(), w.getId()))
+
+print(g.dfs(0))
+print(g.bfs(0))
