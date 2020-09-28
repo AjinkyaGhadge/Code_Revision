@@ -1,55 +1,48 @@
-#Program to implement merge sort
+class Node:
+    def __init__(self, v=0,nxt=None):
+        self.val = v
+        self.next = nxt
 
-def merge(arr,l:int,m:int,r:int):
-    s1 = m-l+1
-    s2 = r-m
+class Solution:
 
-    a1=list()
-    a2=list()
+    def merge(self,l=None,r=None):
+        if not l or not r:
+            return l or r
+        if l.val > r.val:
+            l.val,r.val = r.val,l.val
+        head = pre = l
+        l = l.next
+        while(l and r):
+            if l.val > r.val:
+                pre.next = r
+                tmp = r
+                r = r.next
+                tmp.next = l
+            else:
+                l=l.next
+            pre = pre.next
+        if r:
+            pre.next = r
+        return head
 
-    for i in range(0,s1):
-        a1.append(arr[l+i])
-    
-    for i in range(0,s2):
-        a2.append(arr[m+1+i])
+# n1 = Node(8)
+# n2 = Node(5,n1)
+# n3 = Node(4,n2)
+# n4 = Node(2,n3)
 
-    i,j,k = 0,0,l
+# m  = Node(10)
+# m0 = Node(9,m)
+# m1 = Node(7,m0)
+# m2 = Node(6,m1)
+# m3 = Node(3,m2)
+# m4 = Node(1,m3)
 
-    while i<s1 and j<s2:
-        if a1[i] <= a2[j]:
-            arr[k] = a1[i]
-            i+=1
-        else:
-            arr[k] = a2[j]
-            j+=1
-        k+=1
+# l = n4
+# r = m4
 
-    while i < s1:
-        arr[k] = a1[i]
-        i+=1
-        k+=1
+# k = Solution()
+# j = k.merge(l,r)
 
-    while j<s2:
-        arr[k]= a2[j]
-        j+=1
-        k+=1
-
-
-def mergesort(arr,l,r):
-    if l<r:
-        m = int((l+(r-1))/2)
-        mergesort(arr,l,m)
-        mergesort(arr,m+1,r)
-        merge(arr,l,m,r)
-
-
-arr = [12, 11, 13, 5, 6, 7] 
-n = len(arr) 
-print ("Given array is") 
-for i in range(n): 
-    print ("%d" %arr[i]), 
-  
-mergesort(arr,0,n-1) 
-print ("\n\nSorted array is") 
-for i in range(n): 
-    print ("%d" %arr[i])
+# while j:
+#     print(j.val)
+#     j = j.next
