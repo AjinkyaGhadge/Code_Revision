@@ -1,64 +1,49 @@
+##Program to implement MAX heap
+# So a few things to remember is that when percollating downwards, we have to compare against both left and right, while
+# on percollating upwards we only have to compare against the node, hence adding new element is slightly simpler, cause we 
+# need not check between two children.
+
+
 class BinaryHeap:
-
     def __init__(self):
-        self.heaplist = [0]
-        self.currentsize = 0
-        
-    def _position_node(self,heapsize):
-        while heapsize//2 > 0:
-            if self.heaplist[heapsize//2]>self.heaplist[heapsize]:
-                self.heaplist[heapsize//2],self.heaplist[heapsize] = self.heaplist[heapsize],self.heaplist[heapsize//2]
-            heapsize = heapsize//2 
-    
-    def insert(self,data):
-        self.heaplist.append(data)
-        self.currentsize+=1
-        self._position_node(self.currentsize)
+        self.heapList = [0]
+        self.size = 0
 
-    def _position_root(self,i):
-        while i*2 <= self.currentsize:
-            if i * 2 + 1 > self.currentsize:
-                loc = i * 2
-            else:
-                if min(self.heaplist[i*2],self.heaplist[i*2+1]) == self.heaplist[i*2]:
-                    loc = i*2
-                else:
-                    loc = i*2+1
-            if self.heaplist[i] > self.heaplist[loc]:
-                self.heaplist[i],self.heaplist[loc] = self.heaplist[loc],self.heaplist[i]
-            i = loc
-    
-    def pop(self):
-        data = self.heaplist[1]
-        self.heaplist[1] = self.heaplist[self.currentsize]
-        self.currentsize-=1
-        self.heaplist.pop()
-        self._position_root(1)
-        return data
 
-    def heapfromlist(self,arr:list):
-        i = len(arr)//2
-        self.currentsize = len(arr)
-        self.heaplist = [0]+arr
-        while i > 0:
-            self._position_root(i)
-            i-=1
+    def percup(self,i):
+        while i // 2 > 0:
+            if self.heapList[i] > self.heapList[i//2]:
+                self.heapList[i],self.heapList[i//2] = self.heapList[i//2],self.heapList[i]
+            i = i//2
 
-heapvals = BinaryHeap()
-heapvals.heapfromlist([10,5,8,2,3])
 
-print(heapvals.pop())
-print(heapvals.pop())
-print(heapvals.pop())
-print(heapvals.pop())
-print(heapvals.pop())
+    def insert(self,val):
+        self.heapList.append(val)
+        self.size + =1
+        self.percup(self.size)
 
-'''
-Output:
 
-2
-3
-5
-8
-10
-'''
+    def minchild(self,i):
+        if (i*2) + 1 > self.size:
+            return i * 2
+        if self.heapList[i*2] > self.heapList[i*2+1]:
+            return i * 2
+        else:
+            return i * 2 + 1
+
+
+    def percdown(self,i=1):
+        while (i * 2) <= self.size:
+            ci = self.minchild(i)
+            if self.heapList[i] < self.heapList[ci]:
+                self.heapList[i], self.heapList[ci] = self.heapList[ci], self.heapList[i]
+            i = ci
+
+
+    def delete(self):
+        retval = self.heapList[1]
+        self.heapList[1] = self.heapList[self.size]
+        self.size - = 1
+        self.heapList.pop()
+        self.percdown()
+        return retval
